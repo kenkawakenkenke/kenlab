@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
-    Button
+    Button,
+    FormControlLabel, Checkbox
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect } from "react";
@@ -41,9 +42,12 @@ const useStyles = makeStyles((theme) => ({
 function TwoDice() {
     const classes = useStyles();
     const [dice, setDice] = useState([1, 1]);
-    const [rollEta, setRollEta] = useState(0);
     const [showHistogram, setShowHistogram] = useState(false);
     const [histogram, setHistogram] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const clearHistogram = () => { setHistogram([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) };
+    const [countAddition, setCountAddition] = useState(true);
+    const [countSubtraction, setCountSubtraction] = useState(true);
+    const [countLotsPerClick, setCountLotsPerClick] = useState(false);
     const addToHistogram = (...nums) => {
         const newHistogram = [...histogram];
         nums.forEach(num => newHistogram[num]++);
@@ -52,15 +56,20 @@ function TwoDice() {
 
     function roll() {
         const nums = [];
-        for (let j = 0; j < 1; j++) {
+        const numRoll = countLotsPerClick ? 10000 : 1;
+        for (let j = 0; j < numRoll; j++) {
             const diceCounts = [];
             for (let i = 0; i < 2; i++) {
                 diceCounts.push(1 + Math.floor(Math.random() * 6));
             }
             const numAdd = diceCounts[0] + diceCounts[1];
             const numSubtract = Math.max(diceCounts[0], diceCounts[1]) - Math.min(diceCounts[0], diceCounts[1]);
-            nums.push(numAdd);
-            nums.push(numSubtract);
+            if (countAddition) {
+                nums.push(numAdd);
+            }
+            if (countSubtraction) {
+                nums.push(numSubtract);
+            }
             setDice(diceCounts);
         }
         if (showHistogram) {
@@ -86,14 +95,62 @@ function TwoDice() {
             className={classes.rollButton}
         >サイコロをころがす</Button>
         <div>
-            <ToggleButton value="check"
-                selected={showHistogram}
-                onChange={() => { setShowHistogram(!showHistogram) }}>
-                <CheckIcon />かぞえる
-            </ToggleButton>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={showHistogram}
+                        onChange={() => {
+                            setShowHistogram(!showHistogram);
+                            clearHistogram();
+                        }}
+                        name="checkedB"
+                        color="primary"
+                    />
+                }
+                label="数字が出た回数を数える"
+            />
         </div>
         {showHistogram &&
             <div>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={countAddition}
+                            onChange={() => {
+                                clearHistogram();
+                                setCountAddition(!countAddition);
+                            }}
+                            name="checkedB"
+                            color="primary"
+                        />
+                    }
+                    label="たしざんをかぞえる"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={countSubtraction}
+                            onChange={() => {
+                                clearHistogram();
+                                setCountSubtraction(!countSubtraction);
+                            }}
+                            name="checkedB"
+                            color="primary"
+                        />
+                    }
+                    label="ひきざんをかぞえる"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={countLotsPerClick}
+                            onChange={() => { setCountLotsPerClick(!countLotsPerClick) }}
+                            name="checkedB"
+                            color="primary"
+                        />
+                    }
+                    label="毎回10000回サイコロをころがす"
+                />
                 <ResponsiveContainer width='100%' aspect={4.0 / 1.5}>
                     <BarChart data={data}>
                         <CartesianGrid strokeDasharray="3 3" />
