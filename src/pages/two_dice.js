@@ -163,4 +163,6 @@ function TwoDice() {
         }
     </div >;
 }
+TwoDice.path = "2dice";
+TwoDice.title = "サイコロ2こ";
 export default TwoDice;

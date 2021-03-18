@@ -1,9 +1,21 @@
 import { Link } from "react-router-dom";
 
-function MainPage() {
+import TwoDice from "./two_dice.js";
+import TrainingClock from "./training_clock.js";
 
+export const pages = [
+    MainPage,
+    TwoDice,
+    TrainingClock,
+]
+
+function MainPage() {
     return <div>
-        <div><Link to="/2dice">サイコロ2こ</Link></div>
-    </div>
+        {pages.map(page =>
+            <div key={`link_${page.path}`}><Link to={`${page.path}`}>{page.title}</Link></div>
+        )}
+    </div >
 }
+MainPage.path = "";
+MainPage.title = "Top";
 export default MainPage;
