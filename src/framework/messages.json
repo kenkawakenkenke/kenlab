@@ -1,0 +1,26 @@
+{
+    "en": {
+        "translation": {
+            "難易度": "Difficulty",
+
+        "言葉で表示":"Show time in words",
+        "針に時・分表示": "Show hours/minutes on hands",
+        "針に数字だけ表示": "Show numbers only on hands",
+        "今の時・分を強調表示": "Highlight current hours/minutes",
+        "時・分の範囲を表示": "Show range of hours/minutes",
+        "全ての時・分を表示": "Show all hours/minutes",
+        "色で時と分を区別": "Show colours",
+        "5分毎の分表示": "Show every 5 minutes",
+        "秒針を見せない": "Hide seconds",
+        "時表示": "Show hours",
+        "分の目盛り表示": "Show minute ticks",
+        "時の目盛り表示": "Show hour ticks",
+        "なんもなし": "Nothing!"
+        }
+    },
+    "ja": {
+        "translation": {
+
+        }
+    }
+}

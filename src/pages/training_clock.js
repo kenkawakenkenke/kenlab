@@ -34,6 +34,7 @@ function TrainingClock() {
         </Helmet>
         <div className={classes.controlContainer}>
             <DifficultySlider difficultyCallback={setFeatureVisibility} />
+
         </div>
         <Clock className={classes.canvasParent} featureVisibility={featureVisibility} />
     </div>

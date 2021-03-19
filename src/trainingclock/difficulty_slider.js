@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Slider, Typography } from "@material-ui/core";
-import moment from "moment-timezone";
-import { LocalDiningOutlined } from "@material-ui/icons";
+import { Slider, Typography } from "@material-ui/core";
+import { useTranslation } from 'react-i18next';
 
 import { clockFeatures } from "./features.js";
 
@@ -68,16 +67,17 @@ function DifficultySlider({ difficultyCallback }) {
         difficultyCallback(visibilityForFeature);
     }, [JSON.stringify(visibilityForFeature), difficultyCallback]);
 
+    const { t } = useTranslation();
     const marks = clockFeatures.map((feature, idx) => ({
         value: (clockFeatures.length - 1 - idx) * subticksPerFeature,
         // label: feature.id + " " + feature.displayName + visibilityForFeature[feature.id],
-        label: feature.displayName,
+        label: t(feature.displayName),
     }));
 
     return <div className={classes.difficultySliderRoot}>
         <Typography id="slider-difficulty" gutterBottom>
-            難易度
-            </Typography>
+            {t("難易度")}
+        </Typography>
         <Slider
             className={sliderEditing ? classes.difficultySliderActive : classes.difficultySlider}
             orientation="vertical"

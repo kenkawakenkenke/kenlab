@@ -5,6 +5,7 @@ import moment from "moment-timezone";
 import { Color } from "../common/colorutil.js";
 import * as MathUtil from "../common/mathutil.js";
 import * as DrawUtil from "../common/drawutil.js";
+import i18n from 'i18next';
 
 const useStyles = makeStyles((theme) => ({
     canvas: {
@@ -14,21 +15,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function hourSuffix(hours) {
-    return "じ";
+    if (i18n.language === "ja") {
+        return "じ";
+    }
+    return "hours";
 }
 function minuteSuffix(minutes) {
-    if (minutes === 0) {
+    if (i18n.language === "ja") {
+        if (minutes === 0) {
+            return "ふん";
+        }
+        switch (minutes % 10) {
+            case 0:
+            case 1:
+            case 3:
+            case 6:
+            case 8:
+                return "ぷん";
+        }
         return "ふん";
     }
-    switch (minutes % 10) {
-        case 0:
-        case 1:
-        case 3:
-        case 6:
-        case 8:
-            return "ぷん";
-    }
-    return "ふん";
+    return "minutes";
 }
 
 function doDraw(ctx, featureVisibility, animationRef, tOverride) {
@@ -37,6 +44,7 @@ function doDraw(ctx, featureVisibility, animationRef, tOverride) {
 
     const now = tOverride || moment();
 
+    console.log(i18n.language);
     // 1~12
     const hours = (now.get("hours") % 12 === 0 ? 0 : now.get("hours") % 12);
     // 0~59
