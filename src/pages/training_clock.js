@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import DifficultySlider from "../trainingclock/difficulty_slider.js";
 import Clock from "../trainingclock/clock.js";
+import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,6 +29,9 @@ function TrainingClock() {
     const classes = useStyles();
     const [featureVisibility, setFeatureVisibility] = useState({});
     return <div className={classes.root}>
+        <Helmet>
+            <title>れんしゅうどけい</title>
+        </Helmet>
         <div className={classes.controlContainer}>
             <DifficultySlider difficultyCallback={setFeatureVisibility} />
         </div>
