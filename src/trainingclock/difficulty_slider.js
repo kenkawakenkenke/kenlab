@@ -31,6 +31,13 @@ function DifficultySlider({ difficultyCallback }) {
     const subticksPerFeature = 10;
     const allTicks = (clockFeatures.length - 1) * subticksPerFeature;
     const [difficulty, setDifficulty] = useState(allTicks);
+    useEffect(() => {
+        const storedDifficulty = localStorage.getItem("difficulty");
+        if (storedDifficulty) {
+            setDifficulty(storedDifficulty);
+        }
+        console.log("Load from local storage", storedDifficulty);
+    }, []);
 
     const [sliderEditing, setSliderEditing] = useState(false);
     const currentFeatureIndex = clockFeatures.length - 1 - Math.ceil(difficulty * (clockFeatures.length - 1));
@@ -81,7 +88,9 @@ function DifficultySlider({ difficultyCallback }) {
             max={allTicks}
             marks={marks}
             onChange={(e, newValue) => {
-                setDifficulty(newValue / allTicks);
+                const difficulty = newValue / allTicks;
+                setDifficulty(difficulty);
+                localStorage.setItem("difficulty", difficulty);
                 setSliderEditing(true);
             }}
             onChangeCommitted={() => {
