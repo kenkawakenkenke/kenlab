@@ -13,6 +13,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function minuteSuffix(minutes) {
+    if (minutes === 0) {
+        return "ふん";
+    }
+    switch (minutes % 10) {
+        case 0:
+        case 1:
+        case 3:
+        case 6:
+        case 8:
+            return "ぷん";
+    }
+    return "ふん";
+}
+
 function doDraw(ctx, featureVisibility, animationRef) {
     const canvasWidth = ctx.canvas.width;
     const canvasHeight = ctx.canvas.height;
@@ -57,7 +72,7 @@ function doDraw(ctx, featureVisibility, animationRef) {
         const font = largeHourFont;
         const text = new DrawUtil.StyledText()
             .add(`${hours}じ`, hourColor, font.get(), featureVisibility.showText)
-            .add(`${minutes}ふん`, minuteColor, font.get(), featureVisibility.showText)
+            .add(`${minutes}${minuteSuffix(minutes)}`, minuteColor, font.get(), featureVisibility.showText)
             ;
         const { height } = text.computeMetrics(ctx);
         text.drawCenteredAt(ctx, { x: canvasWidth / 2, y: canvasHeight - height / 2 - 10 });
@@ -161,7 +176,7 @@ function doDraw(ctx, featureVisibility, animationRef) {
                 largeMinuteFont.size, normalMinuteFont.size));
         const text = new DrawUtil.StyledText()
             .add(minutes, minuteColor, font.get(), 1)
-            .add("ふん", minuteColor, minuteSuffixFont.get(), featureVisibility.timeOnHand);
+            .add(minuteSuffix(minutes), minuteColor, minuteSuffixFont.get(), featureVisibility.timeOnHand);
         const radius = text.radius(ctx);
 
         const pointOnNeedle = DrawUtil.positionForRatio(minuteHandRadius + radius, middle, minutesAngle);
