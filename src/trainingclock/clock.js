@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function hourSuffix(hours) {
+    return "じ";
+}
 function minuteSuffix(minutes) {
     if (minutes === 0) {
         return "ふん";
@@ -28,11 +31,11 @@ function minuteSuffix(minutes) {
     return "ふん";
 }
 
-function doDraw(ctx, featureVisibility, animationRef) {
+function doDraw(ctx, featureVisibility, animationRef, tOverride) {
     const canvasWidth = ctx.canvas.width;
     const canvasHeight = ctx.canvas.height;
 
-    const now = moment();
+    const now = tOverride || moment();
 
     // 1~12
     const hours = (now.get("hours") % 12 === 0 ? 0 : now.get("hours") % 12);
@@ -71,7 +74,7 @@ function doDraw(ctx, featureVisibility, animationRef) {
     if (featureVisibility.showText > 0) {
         const font = largeHourFont;
         const text = new DrawUtil.StyledText()
-            .add(`${hours}じ`, hourColor, font.get(), featureVisibility.showText)
+            .add(`${hours}${hourSuffix(hours)}`, hourColor, font.get(), featureVisibility.showText)
             .add(`${minutes}${minuteSuffix(minutes)}`, minuteColor, font.get(), featureVisibility.showText)
             ;
         const { height } = text.computeMetrics(ctx);
@@ -80,7 +83,7 @@ function doDraw(ctx, featureVisibility, animationRef) {
     }
 
     const middle = { x: canvasWidth / 2, y: clockBottom / 2 };
-    const clockRadius = Math.min(middle.x, middle.y) * 0.95;
+    const clockRadius = Math.min(middle.x, middle.y) * 0.9;
 
     const furtherTickRadius = clockRadius * 0.9;
     const nearerTickRadiusLong = furtherTickRadius * 0.85;
@@ -126,7 +129,7 @@ function doDraw(ctx, featureVisibility, animationRef) {
         const color = hourColor.setAlpha(255 * featureVisibility.showHours);
         const text = new DrawUtil.StyledText()
             .add(hours, color, font.get(), 1)
-            .add("じ", color, hourSuffixFont.get(), featureVisibility.timeOnHand);
+            .add(hourSuffix(hours), color, hourSuffixFont.get(), featureVisibility.timeOnHand);
         const radius = text.radius(ctx);
 
         const pointOnNeedle = DrawUtil.positionForRatio(hourHandRadius + radius, middle, hoursAngle);
@@ -234,7 +237,8 @@ function doDraw(ctx, featureVisibility, animationRef) {
     DrawUtil.drawLine(ctx, middle, DrawUtil.positionForRatio(hourHandRadius, middle, hoursAngle), 8,
         "#" + hourColor.toStringRGBA());
 
-    animationRef.current = setTimeout(() => doDraw(ctx, featureVisibility, animationRef), 100);
+    animationRef.current = setTimeout(() =>
+        doDraw(ctx, featureVisibility, animationRef, tOverride && tOverride.add("seconds", 25)), 100);
 }
 
 function Clock({ className, featureVisibility }) {
@@ -249,6 +253,7 @@ function Clock({ className, featureVisibility }) {
         }
         const ctx = canvasRef.current.getContext("2d");
         doDraw(ctx, featureVisibility, animationRef);
+        // doDraw(ctx, featureVisibility, animationRef, moment());
         return () => {
             if (animationRef.current) {
                 clearTimeout(animationRef.current);
