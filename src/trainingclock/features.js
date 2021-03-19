@@ -3,27 +3,27 @@
 export const clockFeatures = [
     {
         id: "showText",
-        displayName: "言葉でも表示",
+        displayName: "言葉で表示",
     },
     {
         id: "timeOnHand",
-        displayName: "針に時刻表示",
+        displayName: "針に時・分表示",
     },
     {
         id: "numberOnHand",
-        displayName: "針に時刻の数字だけ表示",
+        displayName: "針に数字だけ表示",
     },
     {
         id: "highlightCurrentTimeNumber",
-        displayName: "現在時刻の数字を強調表示",
+        displayName: "今の時・分を強調表示",
     },
     {
         id: "showRange",
-        displayName: "時間の範囲を表示",
+        displayName: "時・分の範囲を表示",
     },
     {
         id: "showAllNumbers",
-        displayName: "全ての時と分を表示",
+        displayName: "全ての時・分を表示",
     },
     {
         id: "colors",
@@ -43,14 +43,14 @@ export const clockFeatures = [
     },
     {
         id: "showMinuteTicks",
-        displayName: "分の針表示",
+        displayName: "分の目盛り表示",
     },
     {
         id: "showHourTicks",
-        displayName: "時の針なし",
+        displayName: "時の目盛り表示",
     },
     {
         id: "noHints",
-        displayName: "なにもなし"
+        displayName: "なんもなし"
     }
 ]

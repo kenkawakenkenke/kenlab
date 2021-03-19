@@ -358,6 +358,7 @@ function Clock({ className, featureVisibility }) {
             // console.log("====");
             // Object.entries(featureVisibility).forEach(([id, v]) => console.log(id, v));
             const now = moment().tz("Asia/Tokyo");
+            // now.add(-18, "minutes");
             // now.add(6, "seconds");
             // now.get()
 
