@@ -18,7 +18,7 @@ function hourSuffix(hours) {
     if (i18n.language === "ja") {
         return "じ";
     }
-    return "hours";
+    return "h";
 }
 function minuteSuffix(minutes) {
     if (i18n.language === "ja") {
@@ -35,7 +35,7 @@ function minuteSuffix(minutes) {
         }
         return "ふん";
     }
-    return "minutes";
+    return "m";
 }
 
 function doDraw(ctx, featureVisibility, animationRef, tOverride) {
