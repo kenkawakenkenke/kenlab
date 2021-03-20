@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import DifficultySlider from "../trainingclock/difficulty_slider.js";
 import Clock from "../trainingclock/clock.js";
+import TimeSelector from "../trainingclock/timeselector.js";
 import { Helmet } from "react-helmet";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -18,16 +19,32 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
     },
     canvasParent: {
+        // backgroundColor: "blue",
         maxWidth: "100%",
         maxHeight: "100%",
     },
+    sliders: {
+        flexGrow: "1",
+        flexShrink: "1",
+        flexBasis: "auto",
+
+        display: "flex",
+        flexFlow: "row",
+    },
     controlContainer: {
-        width: "100px",
-        height: "80%",
-        padding: "14px",
+        display: "flex",
+        flexFlow: "column",
     },
     languageSelectorRoot: {
         marginBottom: "8px",
+        flexGrow: "0",
+        flexShrink: "1",
+        flexBasis: "auto",
+    },
+    anotherDiv: {
+        flexGrow: "0",
+        flexShrink: "1",
+        flexBasis: "20px",
     }
 }));
 
@@ -50,15 +67,23 @@ function LanguageSelector() {
 function TrainingClock() {
     const classes = useStyles();
     const [featureVisibility, setFeatureVisibility] = useState({});
+    const [forcedTime, setForcedTime] = useState(720);
     return <div className={classes.root}>
         <Helmet>
             <title>れんしゅうどけい</title>
         </Helmet>
+
         <div className={classes.controlContainer}>
             <LanguageSelector />
             <DifficultySlider difficultyCallback={setFeatureVisibility} />
+            <TimeSelector className={classes.timeSelector}
+                forcedTime={forcedTime}
+                setForcedTimeCallback={setForcedTime}
+            />
         </div>
-        <Clock className={classes.canvasParent} featureVisibility={featureVisibility} />
+        <Clock className={classes.canvasParent}
+            featureVisibility={featureVisibility}
+            forcedTime={forcedTime} />
     </div>
 };
 TrainingClock.path = "trainingclock";

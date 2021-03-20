@@ -44,7 +44,6 @@ function doDraw(ctx, featureVisibility, animationRef, tOverride) {
 
     const now = tOverride || moment();
 
-    console.log(i18n.language);
     // 1~12
     const hours = (now.get("hours") % 12 === 0 ? 0 : now.get("hours") % 12);
     // 0~59
@@ -246,10 +245,13 @@ function doDraw(ctx, featureVisibility, animationRef, tOverride) {
         "#" + hourColor.toStringRGBA());
 
     animationRef.current = setTimeout(() =>
-        doDraw(ctx, featureVisibility, animationRef, tOverride && tOverride.add("seconds", 25)), 100);
+        doDraw(ctx, featureVisibility, animationRef,
+            // tOverride && tOverride.add("seconds", 25)
+            tOverride
+        ), 100);
 }
 
-function Clock({ className, featureVisibility }) {
+function Clock({ className, featureVisibility, forcedTime }) {
     const classes = useStyles();
     const canvasRef = useRef();
 
@@ -260,7 +262,14 @@ function Clock({ className, featureVisibility }) {
             return;
         }
         const ctx = canvasRef.current.getContext("2d");
-        doDraw(ctx, featureVisibility, animationRef);
+        let forcedMoment;
+        if (forcedTime >= 0) {
+            forcedMoment = moment();
+            forcedMoment.set("hours", Math.floor(forcedTime / 60));
+            forcedMoment.set("minutes", Math.floor(forcedTime % 60));
+            forcedMoment.set("seconds", 0);
+        }
+        doDraw(ctx, featureVisibility, animationRef, forcedMoment);
         // doDraw(ctx, featureVisibility, animationRef, moment());
         return () => {
             if (animationRef.current) {
@@ -268,7 +277,7 @@ function Clock({ className, featureVisibility }) {
                 animationRef.current = undefined;
             }
         }
-    }, [canvasRef.current, featureVisibility]);
+    }, [canvasRef.current, featureVisibility, forcedTime]);
 
     return <div className={className}>
         <canvas

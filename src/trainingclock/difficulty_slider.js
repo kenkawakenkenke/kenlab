@@ -4,18 +4,49 @@ import { Slider, Typography } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 
 import { clockFeatures } from "./features.js";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 
 const useStyles = makeStyles((theme) => ({
-    difficultySliderRoot: {
+    root: {
         // backgroundColor: "red",
-        height: "100%",
+        flexGrow: "1",
+        flexShrink: "1",
+        flexBasis: "auto",
+
+        // As flex parent
+        display: "flex",
+        flexFlow: "column",
+    },
+    rootMinimized: {
+        // backgroundColor: "red",
+        flexGrow: "0",
+        flexShrink: "1",
+        flexBasis: "auto",
+
+        // As flex parent
+        display: "flex",
+        flexFlow: "column",
+    },
+    enablementToggle: {
+        margin: "4px",
     },
     difficultySlider: {
+        marginTop: "10px",
+        marginBottom: "10px",
+        flexGrow: "1",
+        flexShrink: "1",
+        flexBasis: "auto",
         "& .MuiSlider-markLabel": {
             opacity: "0%",
         }
     },
     difficultySliderActive: {
+        marginTop: "10px",
+        marginBottom: "10px",
+        flexGrow: "1",
+        flexShrink: "1",
+        flexBasis: "auto",
         "& .MuiSlider-markLabel": {
             opacity: "100%",
             backgroundColor: "#fafafaaa",
@@ -26,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
 
 function DifficultySlider({ difficultyCallback }) {
     const classes = useStyles();
+
+    const [enabled, setEnabled] = useState(true);
 
     const subticksPerFeature = 10;
     const allTicks = (clockFeatures.length - 1) * subticksPerFeature;
@@ -74,30 +107,38 @@ function DifficultySlider({ difficultyCallback }) {
         label: t(feature.displayName),
     }));
 
-    return <div className={classes.difficultySliderRoot}>
-        <Typography id="slider-difficulty" gutterBottom>
-            {t("難易度")}
-        </Typography>
-        <Slider
-            className={sliderEditing ? classes.difficultySliderActive : classes.difficultySlider}
-            orientation="vertical"
-            value={difficulty * allTicks}
-            // valueLabelDisplay="auto"
-            // valueLabelFormat={currentFeature.displayName}
-            min={0}
-            max={allTicks}
-            marks={marks}
-            onChange={(e, newValue) => {
-                const difficulty = newValue / allTicks;
-                setDifficulty(difficulty);
-                localStorage.setItem("difficulty", difficulty);
-                setSliderEditing(true);
+    return <div className={enabled ? classes.root : classes.rootMinimized}>
+        <ToggleButton
+            className={classes.enablementToggle}
+            value="check"
+            selected={enabled}
+            onChange={() => {
+                setEnabled(!enabled);
             }}
-            onChangeCommitted={() => {
-                setSliderEditing(false);
-            }}
-            aria-labelledby="slider-difficulty"
-        />
+            size="small"
+        >
+            <FitnessCenterIcon />
+        </ToggleButton>
+        {enabled &&
+            <Slider
+                className={sliderEditing ? classes.difficultySliderActive : classes.difficultySlider}
+                orientation="vertical"
+                value={difficulty * allTicks}
+                min={0}
+                max={allTicks}
+                marks={marks}
+                onChange={(e, newValue) => {
+                    const difficulty = newValue / allTicks;
+                    setDifficulty(difficulty);
+                    localStorage.setItem("difficulty", difficulty);
+                    setSliderEditing(true);
+                }}
+                onChangeCommitted={() => {
+                    setSliderEditing(false);
+                }}
+                aria-labelledby="slider-difficulty"
+            />
+        }
     </div>;
 }
 export default DifficultySlider;
