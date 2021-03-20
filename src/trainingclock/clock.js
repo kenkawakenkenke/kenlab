@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function formatHour(hours) {
+    if (hours === 0) {
+        return 12;
+    }
+    return hours;
+}
 function hourSuffix(hours) {
     if (i18n.language === "ja") {
         return "じ";
@@ -81,7 +87,7 @@ function doDraw(ctx, featureVisibility, animationRef, tOverride) {
     if (featureVisibility.showText > 0) {
         const font = largeHourFont;
         const text = new DrawUtil.StyledText()
-            .add(`${hours}${hourSuffix(hours)}`, hourColor, font.get(), featureVisibility.showText)
+            .add(`${formatHour(hours)}${hourSuffix(hours)}`, hourColor, font.get(), featureVisibility.showText)
             .add(`${minutes}${minuteSuffix(minutes)}`, minuteColor, font.get(), featureVisibility.showText)
             ;
         const { height } = text.computeMetrics(ctx);
@@ -135,7 +141,7 @@ function doDraw(ctx, featureVisibility, animationRef, tOverride) {
 
         const color = hourColor.setAlpha(255 * featureVisibility.showHours);
         const text = new DrawUtil.StyledText()
-            .add(hours, color, font.get(), 1)
+            .add(formatHour(hours), color, font.get(), 1)
             .add(hourSuffix(hours), color, hourSuffixFont.get(), featureVisibility.timeOnHand);
         const radius = text.radius(ctx);
 
