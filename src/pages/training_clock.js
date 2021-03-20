@@ -3,11 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import DifficultySlider from "../trainingclock/difficulty_slider.js";
 import Clock from "../trainingclock/clock.js";
+import AboutDialog from "../trainingclock/about.js";
 import TimeSelector from "../trainingclock/timeselector.js";
 import { Helmet } from "react-helmet";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import i18n from "../framework/i18n_setup.js";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,8 +69,10 @@ function LanguageSelector() {
 
 function TrainingClock() {
     const classes = useStyles();
+    const { t } = useTranslation();
     const [featureVisibility, setFeatureVisibility] = useState({});
     const [forcedTime, setForcedTime] = useState(720);
+    const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
     return <div className={classes.root}>
         <Helmet>
             <title>れんしゅうどけい</title>
@@ -80,11 +85,15 @@ function TrainingClock() {
                 forcedTime={forcedTime}
                 setForcedTimeCallback={setForcedTime}
             />
+            <Button variant="outlined" color="primary" size="small" onClick={() => setAboutDialogOpen(true)}>
+                {t("About")}
+            </Button>
+            <AboutDialog open={aboutDialogOpen} onClose={() => setAboutDialogOpen(false)} />
         </div>
         <Clock className={classes.canvasParent}
             featureVisibility={featureVisibility}
             forcedTime={forcedTime} />
-    </div>
+    </div >
 };
 TrainingClock.path = "trainingclock";
 TrainingClock.title = "れんしゅうどけい";

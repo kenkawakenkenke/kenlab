@@ -15,7 +15,10 @@
         "時表示": "Show hours",
         "分の目盛り表示": "Show minute ticks",
         "時の目盛り表示": "Show hour ticks",
-        "なんもなし": "Nothing!"
+        "なんもなし": "Nothing!",
+        "aboutDescription": "<1>I made this page</1> because my kids were struggling with reading analog clocks; most 'training' clocks only had one mode of assistance, but I thought that it'll be easier if I could alter the level of assistance as the child grows.",
+        "aboutGithub": "This page is <1>open souced here</1>. Feel free to edit as you wish.",
+        "aboutFollowMe": "If you have any suggestions, expereiences you'd like to share, or simply liked this page, please follow me on twitter:"
         }
     },
     "ja": {
