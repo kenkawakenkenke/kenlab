@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import TwoDice from "./two_dice.js";
 import TrainingClock from "./training_clock.js";
 import WhensMyTurn from "./whens_my_turn.js";
+import VariableEditor from "./variable_editor.js";
 
 export const pages = [
     MainPage,
     TwoDice,
     TrainingClock,
     WhensMyTurn,
+    VariableEditor,
 ]
 
 function MainPage() {
