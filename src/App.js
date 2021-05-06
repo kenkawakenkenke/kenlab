@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, useParams } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 import { pages } from "./pages/main_page.js";
+import "./firebase/firebase_config.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
