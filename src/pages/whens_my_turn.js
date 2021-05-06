@@ -226,17 +226,18 @@ function WhensMyTurn() {
             label="呼ばれた受付番号"
             title="いま呼ばれた番号を入力してください：" />
 
-        <PlotGraph points={points}
-            targetNumber={myNumber}
-            linRegParams={linRegParams}
-            eta={eta}
-        />
         {eta && <>
             <Typography variant="subtitle1">予想呼び出し時刻：</Typography>
             <Typography variant="h4">
                 {eta && moment(eta).format("HH:mm:ss")}
             </Typography>
         </>}
+
+        <PlotGraph points={points}
+            targetNumber={myNumber}
+            linRegParams={linRegParams}
+            eta={eta}
+        />
         <PreviousPoints points={points}
             deleteCallback={idx => {
                 const newPoints = [].concat(
