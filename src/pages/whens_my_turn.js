@@ -13,6 +13,16 @@ import moment from "moment-timezone";
 const useStyles = makeStyles({
     submitButton: {
         margin: "4px",
+    },
+    tableCell: {
+        padding: "4px",
+        // margin: "4px",
+        borderRight: "solid 1px gray",
+    },
+    tableRow: {
+        padding: "4px",
+        margin: "4px",
+        border: "solid 1px gray",
     }
 });
 
@@ -148,6 +158,36 @@ function linReg(points) {
     return params;
 }
 
+function PreviousPoints({ points, deleteCallback }) {
+    const classes = useStyles();
+
+    return <div>
+        <Typography variant="subtitle1">いままで呼ばれた番号：</Typography>
+        <table>
+            <tr classname={classes.tableRow}>
+                <th className={classes.tableCell}>受付番号</th>
+                <th className={classes.tableCell}>受付時間</th>
+                <th className={classes.tableCell}></th>
+            </tr>
+            {points.map((p, idx) => {
+                return <tr classname={classes.tableRow}>
+                    <td className={classes.tableCell}>{p.num}</td>
+                    <td className={classes.tableCell}>{moment(p.t).format("HH:mm:ss")}</td>
+                    <td className={classes.tableCell}>
+                        <Button
+                            onClick={() => deleteCallback(idx)}
+                            variant="outlined"
+                            color="secondary"
+                        >
+                            Delete
+                        </Button>
+                    </td>
+                </tr>;
+            })}
+        </table>
+    </div>;
+}
+
 function WhensMyTurn() {
     const classes = useStyles();
 
@@ -197,6 +237,15 @@ function WhensMyTurn() {
                 {eta && moment(eta).format("HH:mm:ss")}
             </Typography>
         </>}
+        <PreviousPoints points={points}
+            deleteCallback={idx => {
+                const newPoints = [].concat(
+                    points.slice(0, idx),
+                    points.slice(idx + 1)
+                );
+                setPoints(newPoints);
+            }}
+        />
     </div>
 }
 
