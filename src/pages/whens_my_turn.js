@@ -27,7 +27,11 @@ function SubmitNumberForm({ title, label, callback }) {
         }
     }, [inputRef.current]);
     function doSubmit() {
-        callback(parseInt(value));
+        const intValue = parseInt(value);
+        if (!(intValue >= 0)) {
+            return;
+        }
+        callback(intValue);
         setValue("");
     }
     return <div>
