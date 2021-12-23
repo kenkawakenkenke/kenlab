@@ -10,7 +10,7 @@ export const pages = [
     TwoDice,
     TrainingClock,
     WhensMyTurn,
-    VariableEditor,
+    // VariableEditor,
 ]
 
 function MainPage() {
