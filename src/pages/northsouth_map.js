@@ -1,18 +1,9 @@
 import { useState } from "react";
 import {
-    Button,
-    FormControlLabel, Checkbox, RadioGroup, Radio
+    FormControlLabel, RadioGroup, Radio
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import { useEffect } from "react";
-import { ToggleButton } from "@material-ui/lab";
-import CheckIcon from '@material-ui/icons/Check';
-import {
-    BarChart, Bar,
-    XAxis, YAxis, CartesianGrid, Tooltip,
-    ResponsiveContainer
-} from 'recharts';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet'
+import { MapContainer, TileLayer, Polyline } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import bordersData from './borders.json';
 
